@@ -1,0 +1,65 @@
+.card {
+  padding: 16px 0;
+	width: 100%;
+  max-width: 410px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  box-shadow: 0px 4px 15px 0px rgba(151, 151, 151, 0.1);
+}
+
+.card > *:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.date {
+  padding: 0px 20px 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.inf {
+  padding: 0 20px;
+}
+
+.inf > *:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.location {
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.buttons {
+  padding: 0 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.buttons > button {
+  padding: 10px;
+  border-radius: 3px;
+  background: #6366f1;
+
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+	transition: all 0.3s ease;
+}
+
+.buttons > button:hover {
+	background: #7376E7;
+}
