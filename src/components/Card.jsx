@@ -1,72 +1,42 @@
-import React, { useState } from "react";
-import moment from "moment";
+import React from "react";
 import calendar from "./../images/calendar.svg";
-import Modal from "./Modal";
 import "./Card.css";
 
+const formatDate = (dateString) => {
+  const options = {
+    month: "short",
+    year: "numeric",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  return new Date(dateString).toLocaleString("en-US", options);
+};
+
 const Card = ({ data }) => {
-  // Разбор данных для блока даты
-  const formatDate = (dateString) => {
-    const date = moment(dateString);
-
-    if (!date.isValid()) {
-      return { formattedDate: "", formattedDayTime: "" };
-    }
-
-    const formattedDate = date.format("MMM D, YYYY");
-    const formattedDayTime = date.format("ddd h:mm a");
-
-    return { formattedDate, formattedDayTime };
-  };
-
-  const { formattedDate, formattedDayTime } = formatDate(data.spend_date);
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleDetailsClick = () => {
-    setShowModal(true);
-  };
-
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className="card">
-      {/* Блок даты */}
-      <div className="date">
-        <img src={calendar} alt="Calendar Icon" />
-        <p>{formattedDate}</p>
-        <p>{formattedDayTime}</p>
+      <div className="card__date">
+        <div className="card__date-ico">
+          <img src={calendar} alt="calendar" />
+        </div>
+        <div className="card__date-datetime">
+          {formatDate(data.local_date_datetime)}
+        </div>
       </div>
-
-      <div className="inf">
-        {/* Блок заголовка */}
-        <div className="title">{data.title}</div>
-
-        {/* Блок месторасположения */}
-        <div className="location">
-          {data.venue.map((venue) => (
-            <div key={venue.id}>
-              <p>
-                {venue.country}, {venue.city}
-              </p>
-            </div>
-          ))}
+      <div className="card__box">
+        <h2 className="card__title">{data.name}</h2>
+        <div className="card__location">
+          {data.country || "US"}, {data.city || "Baltimore"}
         </div>
       </div>
 
-      {/* Блок кнопок */}
-      <div className="buttons">
-        <button onClick={handleDetailsClick}>Btn-1</button>
-        <button>Btn-2</button>
-        <button>Btn-3</button>
-        <button>Btn-4</button>
+      <div className="card__btns">
+        <button className="card__btn">Btn-1</button>
+        <button className="card__btn">Btn-2</button>
+        <button className="card__btn">Btn-3</button>
+        <button className="card__btn">Btn-4</button>
       </div>
-
-      {/* Модальное окно внутри компонента карточки  */}
-			<Modal data={data} active={showModal} setActive={handleModalClose} />
-      {/* {showModal && <Modal data={data} active={setShowModal} setActive={handleModalClose} />} */}
     </div>
   );
 };

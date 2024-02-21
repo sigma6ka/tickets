@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Rubik:300,regular,500,600,700,800,900");
 
 body {
+	background-color: #F1F5F9;
   font-family: "Rubik", sans-serif;
+	color: #1e293b;
 }
 
 .app {
@@ -12,55 +14,11 @@ body {
   height: 100%;
 }
 
-.cards {
+.card-container {
+	margin-top: 50px;
   position: relative;
-  margin-top: 50px;
-  display: flex;
-  flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(410px, 1fr));
   gap: 30px;
   margin-bottom: 30px;
-}
-
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.pagination__btns {
-  display: flex;
-  gap: 10px;
-}
-
-.pagination__btns > button {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 12px;
-
-  border-radius: 3px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  box-shadow: 0px 4px 15px 0px rgba(151, 151, 151, 0.1);
-
-  cursor: pointer;
-}
-
-.icon-arrow-right {
-  display: flex;
-  align-items: center;
-}
-
-.icon-arrow-left {
-  display: flex;
-  align-items: center;
-}
-
-._active {
-  color: #6366f1;
-}
-
-.disabled {
-  color: #d5dee6;
-  cursor: not-allowed;
 }

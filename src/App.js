@@ -1,83 +1,55 @@
 import React, { useState, useEffect } from "react";
+import { fetchDataFromAPI1 } from "./services/api";
 import Card from "./components/Card";
-import fetchLocalData from "./services/Api";
-import "./reset.css";
+import Pagination from "./components/Pagination";
 import "./main.css";
+import "./reset.css";
 import "./icons-font.css";
 
-function App() {
-  const [allCardData, setAllCardData] = useState([]);
+const App = () => {
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardsPerPage] = useState(9);
-  const [totalCards, setTotalCards] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const fetchLocalDataAndUpdateState = () => {
+    const fetchDataAndSetState = async () => {
       try {
-        const data = fetchLocalData();
-
-        // Ваша логика обработки данных
-        const cards = data; // Вам нужно адаптировать эту часть под данные, которые возвращает ваш API
-        const totalCount = cards.length; // Вам также нужно адаптировать подсчет общего количества
-
-        setAllCardData(cards);
-        setTotalCards(totalCount);
+        // Выберите одно из API для запроса данных
+        const result = await fetchDataFromAPI1();
+        // const result = await fetchDataFromAPI2();
+        setData(result);
+        setTotalPages(Math.ceil(result.length / 9));
       } catch (error) {
-        // Обработка ошибок при запросе данных
-        console.error("Ошибка при получении локальных данных", error);
+        console.error(error.message);
       }
     };
 
-    fetchLocalDataAndUpdateState();
+    fetchDataAndSetState();
   }, []);
 
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
-  const visibleCards = allCardData.slice(
-    (currentPage - 1) * cardsPerPage,
-    currentPage * cardsPerPage
-  );
+  const startIndex = (currentPage - 1) * 9;
+  const endIndex = startIndex + 9;
+  const currentData = data.slice(startIndex, endIndex);
 
   return (
     <div className="app">
-      <div className="cards">
-        {visibleCards.map((card) => (
-          <Card key={card.id} data={card} />
+      <div className="card-container">
+        {currentData.map((item, index) => (
+          <Card key={index} data={item} />
         ))}
       </div>
-      <div className="pagination">
-        <p>
-          Showing {currentPage === 1 ? 1 : (currentPage - 1) * cardsPerPage + 1}{" "}
-          - {Math.min(currentPage * cardsPerPage, totalCards)} of {totalCards}{" "}
-          results.
-        </p>
-
-        <div className="pagination__btns">
-          <button
-            onClick={() =>
-              setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-            }
-            disabled={currentPage === 1}
-            className={currentPage === 1 ? "disabled" : "_active"}
-          >
-            <div className="icon-arrow-left"></div>
-            <div className="btn-text">Previous</div>
-          </button>
-
-          <button
-            onClick={() =>
-              setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-            className={currentPage === totalPages ? "disabled" : "_active"}
-          >
-            <div className="btn-text">Next</div>
-            <div className="icon-arrow-right"></div>
-          </button>
-        </div>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalResults={data.length}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
-}
+};
 
 export default App;
