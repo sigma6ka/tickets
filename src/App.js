@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchDataFromAPI, fetchInitialDataFromAPI } from "./services/api";
+import { fetchDataFromAPI, fetchInitialDataFromAPI } from "./services/Api";
 import Card from "./components/Card";
 import Pagination from "./components/Pagination";
 import Loader from "./components/Loader";
