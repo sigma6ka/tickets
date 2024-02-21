@@ -1,53 +1,81 @@
 import React, { useState, useEffect } from "react";
-import { fetchDataFromAPI1 } from "./services/api";
+import { fetchDataFromAPI, fetchInitialDataFromAPI } from "./services/api";
 import Card from "./components/Card";
 import Pagination from "./components/Pagination";
+import Loader from "./components/Loader";
 import "./main.css";
 import "./reset.css";
 import "./icons-font.css";
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPageUrl, setCurrentPageUrl] = useState(
+    "http://212.111.87.198:8000/api/v1/events?page=1"
+  );
+  const [nextPageUrl, setNextPageUrl] = useState(null);
+  const [prevPageUrl, setPrevPageUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [totalResults, setTotalResults] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); // Добавляем состояние для текущей страницы
 
   useEffect(() => {
-    const fetchDataAndSetState = async () => {
+    const fetchData = async () => {
       try {
-        // Выберите одно из API для запроса данных
-        const result = await fetchDataFromAPI1();
-        // const result = await fetchDataFromAPI2();
-        setData(result);
-        setTotalPages(Math.ceil(result.length / 9));
+        setLoading(true);
+        const initialData = await fetchInitialDataFromAPI();
+        setData(initialData.results);
+        setTotalResults(initialData.count);
+        setNextPageUrl(initialData.next);
+        setPrevPageUrl(initialData.previous);
+        setLoading(false);
       } catch (error) {
-        console.error(error.message);
+        console.error("Ошибка при загрузке данных:", error);
+        setLoading(false);
       }
     };
 
-    fetchDataAndSetState();
+    fetchData();
   }, []);
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+  const handlePageChange = async (url) => {
+    try {
+      setLoading(true);
+      const newData = await fetchDataFromAPI(url);
+      setData(newData.results);
+      setTotalResults(newData.count);
+      setNextPageUrl(newData.next);
+      setPrevPageUrl(newData.previous);
+      setCurrentPage(getPageNumberFromUrl(url)); // Обновляем currentPage при загрузке новых данных
+      setLoading(false);
+    } catch (error) {
+      console.error("Ошибка при загрузке данных:", error);
+      setLoading(false);
+    }
   };
 
-  const startIndex = (currentPage - 1) * 9;
-  const endIndex = startIndex + 9;
-  const currentData = data.slice(startIndex, endIndex);
+  const getPageNumberFromUrl = (url) => {
+    const pageMatch = url.match(/page=(\d+)/);
+    return pageMatch ? parseInt(pageMatch[1]) : 1;
+  };
 
   return (
     <div className="app">
       <div className="card-container">
-        {currentData.map((item, index) => (
-          <Card key={index} data={item} />
-        ))}
+        {loading ? (
+          <Loader />
+        ) : (
+          data.map((item, index) => <Card key={index} data={item} />)
+        )}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalResults={data.length}
-        onPageChange={handlePageChange}
-      />
+      {!loading && (
+        <Pagination
+          nextPageUrl={nextPageUrl}
+          prevPageUrl={prevPageUrl}
+          currentPage={currentPage}
+          totalResults={totalResults}
+          onDataLoad={handlePageChange}
+        />
+      )}
     </div>
   );
 };

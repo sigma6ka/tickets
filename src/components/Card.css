@@ -52,15 +52,24 @@
 .card__btns {
   padding: 0px 20px;
   display: flex;
+	flex-wrap: wrap;
   gap: 15px;
 }
 
 .card__btn {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+
   border-radius: 3px;
   padding: 10px;
-  background: #6366f1;
+  background: #1E293B;
 
   font-weight: 400;
   font-size: 13px;
   color: #fff;
+}
+
+.card__btn-image {
+	width: 15px;
 }

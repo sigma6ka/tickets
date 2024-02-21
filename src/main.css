@@ -10,12 +10,11 @@ body {
   position: relative;
   max-width: 1320px;
   padding: 0 15px;
-  margin: 0 auto;
+  margin: 50px auto;
   height: 100%;
 }
 
 .card-container {
-	margin-top: 50px;
   position: relative;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(410px, 1fr));

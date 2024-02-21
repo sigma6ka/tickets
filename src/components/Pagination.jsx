@@ -1,52 +1,64 @@
 import React from "react";
-import './Pagination.css';
+import "./Pagination.css";
+// import { fetchDataFromAPI } from "./../services/api";
 
 const Pagination = ({
+  nextPageUrl,
+  prevPageUrl,
   currentPage,
-  totalPages,
   totalResults,
-  onPageChange,
+  onDataLoad,
 }) => {
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+  const handleNextPage = () => {
+    if (nextPageUrl) {
+      onDataLoad(nextPageUrl);
     }
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+  const handlePrevPage = () => {
+    if (prevPageUrl) {
+      onDataLoad(prevPageUrl);
     }
   };
 
-  const startIndex = (currentPage - 1) * 9;
-  const endIndex = Math.min(startIndex + 9, totalResults);
+  const perPage = 12; // Количество элементов на странице
+  const startIndex = !isNaN(currentPage) ? (currentPage - 1) * perPage + 1 : 1; // Проверяем, что currentPage является числом
+  const endIndex = !isNaN(totalResults)
+    ? Math.min(startIndex + perPage - 1, totalResults)
+    : 1; // Проверяем, что totalResults является числом
 
   return (
     <div className="pagination">
       <div className="pagination-info">
-        Showing <span>{startIndex + 1}-{endIndex}</span> of <span>{totalResults}</span> results
+        Showing{" "}
+        <span>
+          {startIndex}-{endIndex}
+        </span>{" "}
+        of <span>{totalResults}</span> results
       </div>
       <div className="pagination__buttons">
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          className={currentPage === 1 ? "disabled" : "_active"}
-        >
-					<div className="btn-ico icon-arrow-left"></div>
-					<div className="btn-text">Previous</div>
-        </button>
-        {/* <span>
-          {currentPage} из {totalPages}
-        </span> */}
-        <button
-          onClick={nextPage}
-          disabled={currentPage === totalPages}
-          className={currentPage === totalPages ? "disabled" : "_active"}
-        >
-					<div className="btn-text">Next</div>
-					<div className="btn-ico icon-arrow-right"></div>
-        </button>
+        {prevPageUrl ? (
+          <button className="_active" onClick={handlePrevPage}>
+            <div className="btn-ico icon-arrow-left"></div>
+            <div className="btn-text">Previous</div>
+          </button>
+        ) : (
+          <button disabled className="disabled">
+            <div className="btn-ico icon-arrow-left"></div>
+            <div className="btn-text">Previous</div>
+          </button>
+        )}
+        {nextPageUrl ? (
+          <button className="_active" onClick={handleNextPage}>
+            <div className="btn-text">Next</div>
+            <div className="btn-ico icon-arrow-right"></div>
+          </button>
+        ) : (
+          <button disabled className="disabled">
+            <div className="btn-text">Next</div>
+            <div className="btn-ico icon-arrow-right"></div>
+          </button>
+        )}
       </div>
     </div>
   );
