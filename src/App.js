@@ -9,9 +9,9 @@ import "./icons-font.css";
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [currentPageUrl, setCurrentPageUrl] = useState(
-    "http://212.111.87.198:8000/api/v1/events?page=1"
-  );
+  // const [currentPageUrl, setCurrentPageUrl] = useState(
+  //   "http://212.111.87.198:8000/api/v1/events?page=1"
+  // );
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [prevPageUrl, setPrevPageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
