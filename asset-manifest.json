@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.fbd33893.css",
-    "main.js": "/static/js/main.ccc8ea7f.js",
-    "static/media/icomoon.svg?v7mt9j": "/static/media/icomoon.85d9eedd87031e171edd.svg",
+    "main.css": "/static/css/main.2f9bfd52.css",
+    "main.js": "/static/js/main.71b43f37.js",
+    "static/media/icomoon.svg?v7mt9j": "/static/media/icomoon.00fb416bdf6821efb500.svg",
     "static/media/icomoon.eot?v7mt9j": "/static/media/icomoon.752db5bc78659f8dfbfd.eot",
     "static/media/icomoon.woff?v7mt9j": "/static/media/icomoon.b13cf1c590b8223c6617.woff",
     "static/media/icomoon.ttf?v7mt9j": "/static/media/icomoon.a0e3d6c2f5f1f5eaf9d8.ttf",
-    "static/media/calendar.svg": "/static/media/calendar.d11aa272ef9cd8e17a56e4a76c556cce.svg",
+    "static/media/calendar.svg": "/static/media/calendar.74c9ab60962a408785056d95615d9077.svg",
     "index.html": "/index.html",
-    "main.fbd33893.css.map": "/static/css/main.fbd33893.css.map",
-    "main.ccc8ea7f.js.map": "/static/js/main.ccc8ea7f.js.map"
+    "main.2f9bfd52.css.map": "/static/css/main.2f9bfd52.css.map",
+    "main.71b43f37.js.map": "/static/js/main.71b43f37.js.map"
   },
   "entrypoints": [
-    "static/css/main.fbd33893.css",
-    "static/js/main.ccc8ea7f.js"
+    "static/css/main.2f9bfd52.css",
+    "static/js/main.71b43f37.js"
   ]
 }
