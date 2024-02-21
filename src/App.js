@@ -5,7 +5,6 @@ import Pagination from "./components/Pagination";
 import Loader from "./components/Loader";
 import "./main.css";
 import "./reset.css";
-import "./icons-font.css";
 
 const App = () => {
   const [data, setData] = useState([]);
