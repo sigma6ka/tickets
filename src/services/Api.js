@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let apiUrl = "http://212.111.87.198:8000/api/v1/events";
+let apiUrl = "http://80.242.58.170:8000/api/v1/events";
 
 export const fetchDataFromAPI = async (url) => {
   try {

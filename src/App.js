@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { fetchDataFromAPI, fetchInitialDataFromAPI } from "./services/Api";
 import Card from "./components/Card";
 import Pagination from "./components/Pagination";
@@ -8,14 +9,12 @@ import "./reset.css";
 
 const App = () => {
   const [data, setData] = useState([]);
-  // const [currentPageUrl, setCurrentPageUrl] = useState(
-  //   "http://212.111.87.198:8000/api/v1/events?page=1"
-  // );
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [prevPageUrl, setPrevPageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1); // Добавляем состояние для текущей страницы
+  const [currentPage, setCurrentPage] = useState(1);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +35,11 @@ const App = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const pageNumber = getPageNumberFromUrl(history.location.search);
+    setCurrentPage(pageNumber);
+  }, [history.location.search]);
+
   const handlePageChange = async (url) => {
     try {
       setLoading(true);
@@ -44,7 +48,7 @@ const App = () => {
       setTotalResults(newData.count);
       setNextPageUrl(newData.next);
       setPrevPageUrl(newData.previous);
-      setCurrentPage(getPageNumberFromUrl(url)); // Обновляем currentPage при загрузке новых данных
+      setCurrentPage(getPageNumberFromUrl(url));
       setLoading(false);
     } catch (error) {
       console.error("Ошибка при загрузке данных:", error);
@@ -52,9 +56,9 @@ const App = () => {
     }
   };
 
-  const getPageNumberFromUrl = (url) => {
-    const pageMatch = url.match(/page=(\d+)/);
-    return pageMatch ? parseInt(pageMatch[1]) : 1;
+  const getPageNumberFromUrl = (search) => {
+    const match = search.match(/\?page=(\d+)/);
+    return match ? parseInt(match[1]) : 1;
   };
 
   return (
@@ -70,9 +74,9 @@ const App = () => {
         <Pagination
           nextPageUrl={nextPageUrl}
           prevPageUrl={prevPageUrl}
-          currentPage={currentPage}
           totalResults={totalResults}
           onDataLoad={handlePageChange}
+          currentPage={currentPage}
         />
       )}
     </div>
