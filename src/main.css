@@ -6,6 +6,10 @@ body {
 	color: #1e293b;
 }
 
+body.lock {
+	overflow: hidden;
+}
+
 .app {
   position: relative;
   max-width: 1320px;

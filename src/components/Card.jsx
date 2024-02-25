@@ -1,4 +1,3 @@
-import React from "react";
 import "./Card.css";
 import gametime from "./../images/btn-image/gametime.png";
 import seatgeek from "./../images/btn-image/seatsgeek.png";
@@ -17,12 +16,15 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString("en-US", options);
 };
 
-const Card = ({ data }) => {
+const Card = ({ data, openModal  }) => {
+  const handleGametimeClick = async () => {
+    openModal(data.id);
+  };
+
   return (
     <div className="card">
       <div className="card__date">
         <div className="card__date-ico">
-          {/* <img src={calendar} alt="calendar" /> */}
           <svg
             width="15"
             height="15"
@@ -45,12 +47,11 @@ const Card = ({ data }) => {
       <div className="card__box">
         <h2 className="card__title">{data.name}</h2>
         <div className="card__location">
-          {data.country || "Blank"} {data.city || "Venue"}
+          {"Blank"} {"Venue"}
         </div>
       </div>
-
       <div className="card__btns">
-        <button className="card__btn">
+        <button onClick={handleGametimeClick} className="card__btn">
           <div className="card__btn-image">
             <img src={gametime} alt="" />
           </div>
