@@ -9,6 +9,7 @@ const formatDate = (dateString) => {
   const options = {
     month: "short",
     year: "numeric",
+    day: "numeric",
     weekday: "short",
     hour: "numeric",
     minute: "numeric",
@@ -16,9 +17,9 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString("en-US", options);
 };
 
-const Card = ({ data, openModal  }) => {
-  const handleGametimeClick = async () => {
-    openModal(data.id);
+const Card = ({ data, openModal }) => {
+  const handleButtonClick = async (eventType) => {
+    openModal(data.id, eventType);
   };
 
   return (
@@ -51,31 +52,31 @@ const Card = ({ data, openModal  }) => {
         </div>
       </div>
       <div className="card__btns">
-        <button onClick={handleGametimeClick} className="card__btn">
+        <button onClick={() => handleButtonClick('gametime')} className="card__btn">
           <div className="card__btn-image">
             <img src={gametime} alt="" />
           </div>
           <div className="card__btn-text">Gametime</div>
         </button>
-        <button className="card__btn">
+        <button onClick={() => handleButtonClick('seatsgeek')} className="card__btn">
           <div className="card__btn-image">
             <img src={seatgeek} alt="" />
           </div>
           <div className="card__btn-text">SeatGeek</div>
         </button>
-        <button className="card__btn">
+        <button onClick={() => handleButtonClick('stubhub')} className="card__btn">
           <div className="card__btn-image">
             <img src={stubhub} alt="" />
           </div>
           <div className="card__btn-text">StubHub</div>
         </button>
-        <button className="card__btn">
+        <button onClick={() => handleButtonClick('ticketmaster')} className="card__btn">
           <div className="card__btn-image">
             <img src={ticketmaster} alt="" />
           </div>
           <div className="card__btn-text">Ticketmaster</div>
         </button>
-        <button className="card__btn">
+        <button onClick={() => handleButtonClick('ticketnetwork')} className="card__btn">
           <div className="card__btn-image">
             <img src={ticketnetwork} alt="" />
           </div>

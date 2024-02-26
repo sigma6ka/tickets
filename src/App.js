@@ -6,7 +6,6 @@ import Pagination from "./components/Pagination";
 import Loader from "./components/Loader";
 import "./main.css";
 import "./reset.css";
-import ModalField from "./components/ModalField";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -17,8 +16,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [modalData, setModalData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalFieldOpen, setIsModalFieldOpen] = useState(false);
-  // const [modalButton, setModalButton] = useState("");
+	const [modalEventType, setModalEventType] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +29,7 @@ const App = () => {
         setPrevPageUrl(initialData.previous);
         setLoading(false);
       } catch (error) {
-        console.error("Ошибка при загрузке данных:", error);
+        console.error("Error loading data:", error);
         setLoading(false);
       }
     };
@@ -50,36 +48,20 @@ const App = () => {
       setCurrentPage(getPageNumberFromUrl(url));
       setLoading(false);
     } catch (error) {
-      console.error("Ошибка при загрузке данных:", error);
+      console.error("Error loading data:", error);
       setLoading(false);
     }
   };
 
-  const openModal = async (eventId) => {
-    // setModalButton(button);
-
-    try {
-      const response = await fetch(
-        `http://80.242.58.170:8000/api/v1/gametime/tickets?vividseats_event_id=${eventId}`
-      );
-      const eventData = await response.json();
-      if (response.ok) {
-        setModalData(eventData);
-        setIsModalOpen(true);
-        document.body.classList.add("lock");
-      } else {
-        console.error("Ошибка при загрузке данных:", eventData.error);
-        setIsModalFieldOpen(true);
-        document.body.classList.add("lock");
-      }
-    } catch (error) {
-      console.error("Ошибка при загрузке данных:", error);
-    }
+  const openModal = (eventData, eventType) => {
+    setModalData(eventData);
+    setIsModalOpen(true);
+		setModalEventType(eventType);
+		document.body.classList.add('lock');
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setIsModalFieldOpen(false);
     document.body.classList.remove("lock");
   };
 
@@ -107,10 +89,7 @@ const App = () => {
           onDataLoad={handlePageChange}
         />
       )}
-      {isModalOpen && <Modal eventData={modalData} closeModal={closeModal} />}
-      {isModalFieldOpen && (
-        <ModalField eventData={modalData} closeModal={closeModal} />
-      )}
+      {isModalOpen && <Modal eventType={modalEventType} eventData={modalData} closeModal={closeModal} />}
     </div>
   );
 };
