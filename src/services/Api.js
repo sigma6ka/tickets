@@ -7,7 +7,7 @@ export const fetchDataFromAPI = async (url) => {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    throw new Error("Ошибка при загрузке данных из API");
+    throw new Error("Error loading data");
   }
 };
 
@@ -16,6 +16,6 @@ export const fetchInitialDataFromAPI = async () => {
     const response = await axios.get(apiUrl);
     return response.data;
   } catch (error) {
-    throw new Error("Ошибка при загрузке данных из API");
+    throw new Error("Error loading data");
   }
 };
